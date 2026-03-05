@@ -1,0 +1,33 @@
+api key = 9d44f5ea589a269eed52c587431dd22b-82cf32bf-c6cd97e3
+sandbox domain = sandbox469ced8e887348fc931c7e3f142af3e6.mailgun.org
+base url = https://api.mailgun.net
+
+
+
+
+
+
+import FormData from "form-data"; // form-data v4.0.1
+import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
+
+async function sendSimpleMessage() {
+  const mailgun = new Mailgun(FormData);
+  const mg = mailgun.client({
+    username: "api",
+    key: process.env.API_KEY || "9d44f5ea589a269eed52c587431dd22b-82cf32bf-c6cd97e3",
+    // When you have an EU-domain, you must specify the endpoint:
+    // url: "https://api.eu.mailgun.net"
+  });
+  try {
+    const data = await mg.messages.create("sandbox469ced8e887348fc931c7e3f142af3e6.mailgun.org", {
+      from: "Mailgun Sandbox <postmaster@sandbox469ced8e887348fc931c7e3f142af3e6.mailgun.org>",
+      to: ["ramesh kumar <9256.ramesh@gmail.com>"],
+      subject: "Hello ramesh kumar",
+      text: "Congratulations ramesh kumar, you just sent an email with Mailgun! You are truly awesome!",
+    });
+
+    console.log(data); // logs response data
+  } catch (error) {
+    console.log(error); //logs any error
+  }
+}
