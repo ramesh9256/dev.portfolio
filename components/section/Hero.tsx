@@ -45,6 +45,7 @@ export default function Hero() {
                         href="/resume.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
+                        download="resume.pdf"
                         className="text-[#004d2c] font-semibold hover:underline flex items-center gap-1"
                     >
                         _Resume
