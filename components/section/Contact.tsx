@@ -32,39 +32,28 @@ export default function Contact() {
 
 
   const onSubmit = async (data: ContactFormData) => {
-    // ✦ Promise Toast: Ye loading, success aur error ek saath handle karega
+    setLoading(true); // Loading start karein
+
     const sendMailPromise = fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     }).then(async (res) => {
+      setLoading(false); // Response aane par loading stop
       if (!res.ok) throw new Error();
-      reset(); // Success hone par form clear karein
+      reset();
       return res;
+    }).catch((err) => {
+      setLoading(false); // Error aane par bhi loading stop
+      throw err;
     });
 
     toast.promise(sendMailPromise, {
       loading: 'Sending your message... ✦',
-      success: 'Message sent successfully! I will contact you soon. ✅',
-      error: 'Could not send message. Please try again later. ❌',
-    }, {
-      style: {
-        borderRadius: '15px',
-        background: '#004d2c',
-        color: '#fff',
-        fontWeight: 'bold',
-      },
-      success: {
-        duration: 5000,
-        iconTheme: {
-          primary: '#4ade80',
-          secondary: '#fff',
-        },
-      },
-    });
-
+      success: 'Message sent successfully! ✅',
+      error: 'Could not send message. ❌',
+    })
   };
-
   return (
     <section className="contact-section" id="contact">
       <Toaster />
@@ -117,5 +106,6 @@ export default function Contact() {
 
       </div>
     </section>
-  );
+  )
 }
+
